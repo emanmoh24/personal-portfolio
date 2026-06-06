@@ -15,20 +15,52 @@ var nextNavBtn = document.querySelector("#next-testimonial");
 var prevNavBtn = document.querySelector("#prev-testimonial");
 var indicators = Array.from(document.querySelectorAll(".carousel-indicator"));
 var scrollUpBtn = document.querySelector("#scroll-to-top");
-var colorBtn;
 
 var position = 0;
 var maxPosition = 3;
 var clickedIndex;
+var colorBtns = [];
 
+var colorList = [
+    {
+        primaryColor: 'oklch(71.4% 0.203 305.504)',
+        secondaryColor: 'oklch(67.3% 0.182 276.935)',
+        accent: 'oklch(55.4% 0.046 257.417)'
+    },
+    {
+        primaryColor: 'oklch(63.7% 0.237 25.331)',
+        secondaryColor: 'oklch(70.4% 0.191 22.216)',
+        accent: 'oklch(76.9% 0.188 70.08)'
+    },
+    {
+        primaryColor: 'oklch(72.3% 0.219 149.579)',
+        secondaryColor: 'oklch(79.2% 0.209 151.711)',
+        accent: 'oklch(76.5% 0.177 163.223)'
+    },
+    {
+        primaryColor: 'oklch(62.3% 0.214 259.815)',
+        secondaryColor: 'oklch(70.7% 0.165 254.624)',
+        accent: 'oklch(67.3% 0.182 276.935)'
+    },
+    {
+        primaryColor: 'oklch(57.7% 0.245 27.325)',
+        secondaryColor: 'oklch(63.7% 0.237 25.331)',
+        accent: 'oklch(70.4% 0.191 22.216)'
+    },
+    {
+        primaryColor: 'oklch(70.5% 0.213 47.604)',
+        secondaryColor: 'oklch(75% 0.183 55.934)',
+        accent: 'oklch(76.9% 0.188 70.08)'
+    },
 
+]
 
-createColorBtn("#8465FA", "#7F6AFF")
-createColorBtn("#F65B79", "#F38647")
-createColorBtn("#07C278", "#068652")
-createColorBtn("#23A6FE", "#1D7FC3")
-createColorBtn("#FF455A", "#CD2C3D")
-createColorBtn("#FF8D03", "#D15E03")
+createColorBtn("oklch(71.4% 0.203 305.504)", "oklch(67.3% 0.182 276.935)", "oklch(55.4% 0.046 257.417)")
+createColorBtn("oklch(63.7% 0.237 25.331)", "oklch(70.4% 0.191 22.216)", "oklch(76.9% 0.188 70.08)")
+createColorBtn("oklch(72.3% 0.219 149.579)", "oklch(79.2% 0.209 151.711)", "oklch(76.5% 0.177 163.223)")
+createColorBtn("oklch(62.3% 0.214 259.815)", "oklch(70.7% 0.165 254.624)", "oklch(67.3% 0.182 276.935)")
+createColorBtn("oklch(57.7% 0.245 27.325)", "oklch(63.7% 0.237 25.331)", "oklch(70.4% 0.191 22.216)")
+createColorBtn("oklch(70.5% 0.213 47.604)", "oklch(75% 0.183 55.934)", "oklch(76.9% 0.188 70.08)")
 
 toggleBtn.addEventListener("click", e => {
 
@@ -57,17 +89,58 @@ window.addEventListener("click", e => {
     sideBarBtn.style.cssText = "  transform: translateX(0); "
 })
 
-fontBtns.forEach((btn) => {
+fontBtns.forEach(btn => {
 
     btn.addEventListener("click", e => {
+
         e.stopPropagation()
-        changeFont()
+
+        var fontName = btn.dataset.font;
+        document.body.style.fontFamily = `"${fontName}", sans-serif`;
+
+        fontBtns.forEach((b) => {
+            b.classList.remove("active");
+        });
+
+        btn.classList.add("active");
 
     });
 });
 
-// colorBtn.addEventListener("mouseenter" , e => {
-//     colorBtn.classList.add("scale(1.2)")
+colorBtns.forEach(color => {
+    color.addEventListener("mouseenter", e => {
+
+        color.style.transform = "scale(1.1)";
+        color.style.borderColor = "#EC4B97";
+
+    })
+})
+
+colorBtns.forEach(color => {
+    color.addEventListener("mouseleave", e => {
+
+        color.style.transform = "scale(1)";
+        color.style.borderColor = "#314158";
+
+    })
+})
+
+// colorBtns.forEach(color => {
+//     color.addEventListener("click" , e => {
+
+//         e.stopPropagation()
+
+//         // `.from-primary{ --tw-gradient-from: ${value}; }`
+
+//         change.classList.remove"from-primary", 
+//             "via-secondary", 
+//             "to-accent", 
+//         //     // "bg-clip-text", 
+//         //     // "text-transparent",
+//         //     // "bg-gradient-to-r")
+//         // // change.style.cssText = "color: oklch(76.9% 0.188 70.08)"
+//         // change.style.color = "oklch(76.9% 0.188 70.08)"
+//     })
 // })
 
 resetBtn.addEventListener("click", e => {
@@ -87,35 +160,42 @@ window.addEventListener("scroll", e => {
     }
 })
 
-scrollUpBtn.addEventListener("click" , e => {
-    var targetSection = document.querySelector("#hero-section"); 
-    targetSection.scrollIntoView({behavior: 'smooth'});
+scrollUpBtn.addEventListener("click", e => {
+    var targetSection = document.querySelector("#hero-section");
+    targetSection.scrollIntoView({ behavior: 'smooth' });
 })
 
-// tabs.forEach(tab => {
-//     tab.addEventListener("click", e => {
-//         console.log(tab)
+tabs.forEach(tab => {
+    tab.addEventListener("click", e => {
 
-//         tabs.forEach(tab => {
-//             tab.classList.remove("bg-linear-to-r", "from-primary", "to-secondary")
-//             tabs[0].classList.add("bg-white", "dark:bg-slate-800", "text-slate-600", "dark:text-slate-300", "border", "border-slate-300", "dark:border-slate-700")
-//         })
+        tabs.forEach(tab => {
+            tab.classList.remove("bg-linear-to-r", "from-primary", "to-secondary")
+            tabs[0].classList.add("bg-white", "dark:bg-slate-800", "text-slate-600", "dark:text-slate-300", "border", "border-slate-300", "dark:border-slate-700")
+        })
 
-//         e.currentTarget.classList.add("bg-linear-to-r", "from-primary", "to-secondary")
+        e.target.classList.add("bg-linear-to-r", "from-primary", "to-secondary")
 
-//         var filterBtn = document.querySelector(e.currentTarget.dataset.filter);
-//         var items = document.querySelector(e.currentTarget.dataset.category)
+        var filterValue = e.target.dataset.filter;
+        var allItems = document.querySelectorAll('.portfolio-item');
 
-//         if (filterBtn === items) {
-//             items.style.display = "block";
-//         }
-//         else {
-//             items.style.display = "none";
-//         }
+        allItems.forEach(item => {
+            var itemCategory = item.dataset.category;
 
-//         console.log(e.currentTarget.dataset.filter)
-//     })
-// })
+            if (filterValue === "all" || filterValue === itemCategory) {
+
+                item.classList.remove("hidden");
+                item.style.display = "block";
+
+            } else {
+
+                item.classList.add("hidden");
+                item.style.display = "none";
+            }
+
+        })
+
+    })
+})
 
 nextNavBtn.addEventListener("click", e => {
 
@@ -163,27 +243,17 @@ function scrollSpy() {
 
 }
 
-function changeFont() {
+function createColorBtn(color1, color2, color3) {
 
-    var fontName = btn.dataset.font;
-    document.body.style.fontFamily = `"${fontName}", sans-serif`;
-
-    fontBtns.forEach((b) => {
-        b.classList.remove("active");
-    });
-
-    btn.classList.add("active");
-
-}
-
-function createColorBtn(color1, color2) {
-
-    colorBtn = document.createElement("button")
+    var colorBtn = document.createElement("button")
     colorBtn.style.cssText = `width: 50px;
         height: 50px;
         border-radius: 50%;
-        background: linear-gradient(to right , ${color1} , ${color2});
-        border: 2px solid #314158;`
+        background: linear-gradient(to right bottom , ${color1} , ${color2} , ${color3});
+        border: 2px solid #314158;
+        transition: all 0.3s`
+
+    colorBtns.push(colorBtn)
 
     colorContainer.appendChild(colorBtn)
 
@@ -238,7 +308,6 @@ function switchIndicators() {
             click.classList.add("bg-accent");
             click.classList.remove("dark:bg-slate-600");
             click.setAttribute("aria-selected", "true");
-            // showNextSlide()
             position++
         }
 
@@ -252,8 +321,6 @@ function switchIndicators() {
     });
 
 }
-
-
 
 
 
