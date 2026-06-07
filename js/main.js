@@ -3,7 +3,7 @@ var activePage = window.location.hash;
 var navLinks = Array.from(document.querySelectorAll("nav a"));
 var PageSections = document.querySelectorAll("section");
 var tabs = Array.from(document.querySelectorAll(".portfolio-filter"));
-var tabsItems = Array.from(document.querySelectorAll(".portfolio-item"));
+var items = Array.from(document.querySelectorAll(".portfolio-item"));
 var sideBarBtn = document.querySelector("#settings-toggle");
 var sideBar = document.querySelector("#settings-sidebar");
 var closeSideBarBtn = document.querySelector("#close-settings");
@@ -17,50 +17,54 @@ var indicators = Array.from(document.querySelectorAll(".carousel-indicator"));
 var scrollUpBtn = document.querySelector("#scroll-to-top");
 
 var position = 0;
-var maxPosition = 3;
 var clickedIndex;
 var colorBtns = [];
 
 var colorList = [
     {
-        primaryColor: 'oklch(71.4% 0.203 305.504)',
-        secondaryColor: 'oklch(67.3% 0.182 276.935)',
-        accent: 'oklch(55.4% 0.046 257.417)'
+        primaryColor: '#6366f1',
+        secondaryColor: '#8b5cf6',
+        accent: '#a855f7'
     },
     {
-        primaryColor: 'oklch(63.7% 0.237 25.331)',
-        secondaryColor: 'oklch(70.4% 0.191 22.216)',
-        accent: 'oklch(76.9% 0.188 70.08)'
+        primaryColor: '#fb2c36',
+        secondaryColor: '#ff6467',
+        accent: '#fe9a00'
     },
     {
-        primaryColor: 'oklch(72.3% 0.219 149.579)',
-        secondaryColor: 'oklch(79.2% 0.209 151.711)',
-        accent: 'oklch(76.5% 0.177 163.223)'
+        primaryColor: '#00c950',
+        secondaryColor: '#06df72',
+        accent: '#00d492'
     },
     {
-        primaryColor: 'oklch(62.3% 0.214 259.815)',
-        secondaryColor: 'oklch(70.7% 0.165 254.624)',
-        accent: 'oklch(67.3% 0.182 276.935)'
+        primaryColor: '#2b7fff',
+        secondaryColor: '#51a2ff',
+        accent: '#7c86ff'
     },
     {
-        primaryColor: 'oklch(57.7% 0.245 27.325)',
-        secondaryColor: 'oklch(63.7% 0.237 25.331)',
-        accent: 'oklch(70.4% 0.191 22.216)'
+        primaryColor: '#e7000b',
+        secondaryColor: '#fb2c36',
+        accent: '#ff6467'
     },
     {
-        primaryColor: 'oklch(70.5% 0.213 47.604)',
-        secondaryColor: 'oklch(75% 0.183 55.934)',
-        accent: 'oklch(76.9% 0.188 70.08)'
+        primaryColor: '#ff6900',
+        secondaryColor: '#ff8903',
+        accent: '#fe9a00'
     },
 
 ]
 
-createColorBtn("oklch(71.4% 0.203 305.504)", "oklch(67.3% 0.182 276.935)", "oklch(55.4% 0.046 257.417)")
-createColorBtn("oklch(63.7% 0.237 25.331)", "oklch(70.4% 0.191 22.216)", "oklch(76.9% 0.188 70.08)")
-createColorBtn("oklch(72.3% 0.219 149.579)", "oklch(79.2% 0.209 151.711)", "oklch(76.5% 0.177 163.223)")
-createColorBtn("oklch(62.3% 0.214 259.815)", "oklch(70.7% 0.165 254.624)", "oklch(67.3% 0.182 276.935)")
-createColorBtn("oklch(57.7% 0.245 27.325)", "oklch(63.7% 0.237 25.331)", "oklch(70.4% 0.191 22.216)")
-createColorBtn("oklch(70.5% 0.213 47.604)", "oklch(75% 0.183 55.934)", "oklch(76.9% 0.188 70.08)")
+createColorBtn("#6366f1", "#8b5cf6", "#a855f7")
+createColorBtn("#fb2c36", "#ff6467", "#fe9a00")
+createColorBtn("#00c950", "#06df72", "#00d492")
+createColorBtn("#2b7fff", "#51a2ff", "#7c86ff")
+createColorBtn("#e7000b", "#fb2c36", "#ff6467")
+createColorBtn("#ff6900", "#ff8903", "#fe9a00")
+
+document.documentElement.style.setProperty("--color-primary", JSON.parse(localStorage.getItem("primary color")), "important");
+document.documentElement.style.setProperty("--color-secondary", JSON.parse(localStorage.getItem("secondary color")), "important");
+document.documentElement.style.setProperty("--color-accent", JSON.parse(localStorage.getItem("accent color")), "important");
+document.body.style.fontFamily = JSON.parse(localStorage.getItem("font"));
 
 toggleBtn.addEventListener("click", e => {
 
@@ -96,6 +100,7 @@ fontBtns.forEach(btn => {
         e.stopPropagation()
 
         var fontName = btn.dataset.font;
+
         document.body.style.fontFamily = `"${fontName}", sans-serif`;
 
         fontBtns.forEach((b) => {
@@ -104,7 +109,10 @@ fontBtns.forEach(btn => {
 
         btn.classList.add("active");
 
+        localStorage.setItem("font", JSON.stringify(document.body.style.fontFamily))
     });
+
+
 });
 
 colorBtns.forEach(color => {
@@ -113,39 +121,47 @@ colorBtns.forEach(color => {
         color.style.transform = "scale(1.1)";
         color.style.borderColor = "#EC4B97";
 
+        color.addEventListener("mouseleave", e => {
+
+            color.style.transform = "scale(1)";
+            color.style.borderColor = "#314158";
+
+        })
     })
 })
 
-colorBtns.forEach(color => {
-    color.addEventListener("mouseleave", e => {
+colorBtns.forEach((btn, index) => {
+    btn.addEventListener("click", e => {
+        e.stopPropagation();
 
-        color.style.transform = "scale(1)";
-        color.style.borderColor = "#314158";
+        var theme = colorList[index];
 
-    })
-})
+        document.documentElement.style.setProperty("--color-primary", theme.primaryColor, "important");
+        document.documentElement.style.setProperty("--color-secondary", theme.secondaryColor, "important");
+        document.documentElement.style.setProperty("--color-accent", theme.accent, "important");
 
-// colorBtns.forEach(color => {
-//     color.addEventListener("click" , e => {
 
-//         e.stopPropagation()
+        localStorage.setItem("primary color", JSON.stringify(theme.primaryColor))
+        localStorage.setItem("secondary color", JSON.stringify(theme.secondaryColor))
+        localStorage.setItem("accent color", JSON.stringify(theme.accent))
 
-//         // `.from-primary{ --tw-gradient-from: ${value}; }`
-
-//         change.classList.remove"from-primary", 
-//             "via-secondary", 
-//             "to-accent", 
-//         //     // "bg-clip-text", 
-//         //     // "text-transparent",
-//         //     // "bg-gradient-to-r")
-//         // // change.style.cssText = "color: oklch(76.9% 0.188 70.08)"
-//         // change.style.color = "oklch(76.9% 0.188 70.08)"
-//     })
-// })
+    });
+});
 
 resetBtn.addEventListener("click", e => {
 
     document.body.style.fontFamily = "Tajawal, sans-serif"
+
+    document.documentElement.style.setProperty("--color-primary", "#6366f1", "important");
+    document.documentElement.style.setProperty("--color-secondary", "#8b5cf6", "important");
+    document.documentElement.style.setProperty("--color-accent", "#6366f1", "important");
+
+    localStorage.setItem("font", JSON.stringify(document.body.style.fontFamily))
+
+
+    localStorage.setItem("primary color", JSON.stringify("#6366f1"))
+    localStorage.setItem("secondary color", JSON.stringify("#8b5cf6"))
+    localStorage.setItem("accent color", JSON.stringify("#6366f1"))
     e.stopPropagation()
 
 })
@@ -176,9 +192,8 @@ tabs.forEach(tab => {
         e.target.classList.add("bg-linear-to-r", "from-primary", "to-secondary")
 
         var filterValue = e.target.dataset.filter;
-        var allItems = document.querySelectorAll('.portfolio-item');
 
-        allItems.forEach(item => {
+        items.forEach(item => {
             var itemCategory = item.dataset.category;
 
             if (filterValue === "all" || filterValue === itemCategory) {
@@ -260,6 +275,9 @@ function createColorBtn(color1, color2, color3) {
 }
 
 function showNextSlide() {
+
+    var maxPosition = 3;
+
     if (position === maxPosition) {
 
         nextNavBtn.classList.add("disabled:opacity-50", "disabled:pointer-events-none");
@@ -299,6 +317,11 @@ function showPrevSlide() {
 
 }
 
+
+indicators.forEach(indicator => {
+    changeSlides()
+})
+
 function switchIndicators() {
 
     indicators.forEach((click, index) => {
@@ -308,7 +331,6 @@ function switchIndicators() {
             click.classList.add("bg-accent");
             click.classList.remove("dark:bg-slate-600");
             click.setAttribute("aria-selected", "true");
-            position++
         }
 
         else {
@@ -321,7 +343,6 @@ function switchIndicators() {
     });
 
 }
-
 
 
 
