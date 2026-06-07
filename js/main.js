@@ -317,11 +317,6 @@ function showPrevSlide() {
 
 }
 
-
-indicators.forEach(indicator => {
-    changeSlides()
-})
-
 function switchIndicators() {
 
     indicators.forEach((click, index) => {
@@ -343,6 +338,37 @@ function switchIndicators() {
     });
 
 }
+
+
+
+
+
+
+
+
+
+
+
+// indicators.forEach(indicator => {
+//     changeSlides()
+// })
+
+// function changeSlides(index) {
+//     testimonialCards.forEach( card => {
+//         var cardSize = card.getBoundingClientRect().width;
+        
+//         var offset = -(cardSize * index);
+        
+//         // card.style.cssText = `
+//         //     transform: translateX(${offset}px);
+//         //     transition: 0.5s ease-in-out;
+//         // `;
+        
+//     });
+// }
+
+
+
 
 
 
